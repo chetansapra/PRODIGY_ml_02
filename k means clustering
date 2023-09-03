@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.random.seed(0)
+num_samples = 200
+amount_spent = np.random.uniform(0, 1000, num_samples)
+purchase_frequency = np.random.uniform(1, 10, num_samples)
+data = pd.DataFrame({'AmountSpent': amount_spent, 'PurchaseFrequency': purchase_frequency})
+
+print(data.head())
+
+plt.scatter(data['AmountSpent'], data['PurchaseFrequency'])
+plt.xlabel('Amount Spent')
+plt.ylabel('Purchase Frequency')
+plt.title('Amount Spent vs. Purchase Frequency')
+plt.show()
+
+#Implementation of K-means clustering algorithm to group customers of a retail store based on their purchase history.
+
+from sklearn.cluster import KMeans
+
+num_clusters = 3
+
+kmeans = KMeans(n_clusters=num_clusters, random_state=0)
+
+
+kmeans.fit(data)
+
+cluster_labels = kmeans.labels_
+
+data['Cluster'] = cluster_labels
+
+print(data.head())
+
+plt.scatter(data['AmountSpent'], data['PurchaseFrequency'], c=data['Cluster'], cmap='viridis')
+plt.xlabel('Amount Spent')
+plt.ylabel('Purchase Frequency')
+plt.title('Clusters of Customers')
+plt.show()
